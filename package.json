@@ -1,0 +1,61 @@
+{
+  "name": "@returnacy/event-contracts",
+  "version": "0.1.0",
+  "description": "Shared event envelope, schemas, and validators for Returnacy services",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./schemas/*": "./schemas/*"
+  },
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format esm,cjs --clean",
+    "generate:schemas": "ts-node --esm src/generateSchemas.ts",
+    "check": "tsc --noEmit",
+    "prepublishOnly": "pnpm build && pnpm generate:schemas"
+  },
+  "dependencies": {
+    "uuid": "^9.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.1",
+    "typescript": "^5.4.5",
+    "zod-to-json-schema": "^3.22.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "keywords": [
+    "events",
+    "contracts",
+    "zod",
+    "schema"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Returnacy/event-contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Returnacy/event-contracts/issues"
+  },
+  "homepage": "https://github.com/Returnacy/event-contracts#readme",
+  "private": false
+}

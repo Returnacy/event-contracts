@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2025-09-29T08:20:04.372Z",
+  "envelope": "event-envelope.schema.json",
+  "events": [
+    {
+      "type": "campaign.step.ready",
+      "version": 1
+    },
+    {
+      "type": "message.sent",
+      "version": 1
+    },
+    {
+      "type": "quota.threshold.approaching",
+      "version": 1
+    }
+  ]
+}

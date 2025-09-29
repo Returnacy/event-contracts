@@ -1,0 +1,51 @@
+{
+  "$ref": "#/definitions/quota_threshold_approaching_v1",
+  "definitions": {
+    "quota_threshold_approaching_v1": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planCode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "periodKey": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$"
+        },
+        "usage": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "businessId",
+        "planCode",
+        "periodKey",
+        "usage",
+        "limit",
+        "percent",
+        "threshold"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,43 @@
+{
+  "$ref": "#/definitions/campaign_step_ready_v1",
+  "definitions": {
+    "campaign_step_ready_v1": {
+      "type": "object",
+      "properties": {
+        "stepExecutionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "businessId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "channel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "batchSize": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      },
+      "required": [
+        "stepExecutionId",
+        "campaignId",
+        "businessId",
+        "channel",
+        "batchSize"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

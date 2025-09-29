@@ -1,0 +1,6 @@
+src
+tsconfig.json
+tsconfig.build.json
+*.log
+node_modules
+coverage
