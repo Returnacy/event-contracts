@@ -27,12 +27,13 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           cache: 'pnpm'
 
-      - name: Configure .npmrc for scope
+      - name: Configure project .npmrc for scope
         run: |
-          echo "@returnacy:registry=https://npm.pkg.github.com" >> ~/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+          echo "@returnacy:registry=https://npm.pkg.github.com" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+          echo "always-auth=true" >> .npmrc
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install deps
         run: pnpm install --frozen-lockfile
@@ -52,15 +53,22 @@ jobs:
             exit 1
           fi
 
-      - name: Show npm config
+      - name: Show npm config & auth state
         run: |
-          npm config get registry
+          echo "Registry: $(npm config get registry)"
+          echo "Whoami (before login attempt):" || true
           npm whoami || echo "(not logged in yet)"
+          echo "Listing current .npmrc:"; cat .npmrc
+          echo "Ping registry:"; npm ping --registry=https://npm.pkg.github.com || echo "Ping failed (will still attempt publish)"
 
       - name: Publish to GitHub Packages
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish --registry https://npm.pkg.github.com/
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish --registry=https://npm.pkg.github.com
+
+      - name: Post-publish whoami
+        if: always()
+        run: npm whoami || echo "whoami after publish failed"
 
       - name: Summary
         run: |
