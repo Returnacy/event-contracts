@@ -67,6 +67,7 @@ pnpm generate:schemas
 ```
 
 Outputs to `schemas/` one file per event + `event-envelope.schema.json`.
+`manifest.json` now contains a deterministic `schemaHash` (SHA-256 over all schema files) so rebuilds without schema changes do not alter git state.
 
 ## Versioning Strategy
 
