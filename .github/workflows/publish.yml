@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://npm.pkg.github.com
+          registry-url: https://npm.pkg.github.com/
           cache: 'pnpm'
 
       - name: Configure .npmrc for scope
@@ -52,10 +52,15 @@ jobs:
             exit 1
           fi
 
+      - name: Show npm config
+        run: |
+          npm config get registry
+          npm whoami || echo "(not logged in yet)"
+
       - name: Publish to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish
+        run: npm publish --registry https://npm.pkg.github.com/
 
       - name: Summary
         run: |
