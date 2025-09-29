@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs --clean",
-    "generate:schemas": "ts-node --esm src/generateSchemas.ts",
+    "generate:schemas": "tsx src/generateSchemas.ts",
     "check": "tsc --noEmit",
     "prepublishOnly": "pnpm build && pnpm generate:schemas"
   },
@@ -31,7 +31,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
-    "ts-node": "^10.9.2",
+  "ts-node": "^10.9.2",
+  "tsx": "^4.16.2",
     "tsup": "^8.0.1",
     "typescript": "^5.4.5",
     "zod-to-json-schema": "^3.22.5"
@@ -39,23 +40,17 @@
   "engines": {
     "node": ">=18"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Returnacy/event-contracts.git"
+  },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/",
-    "access": "public"
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "events",
     "contracts",
     "zod",
     "schema"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Returnacy/event-contracts.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Returnacy/event-contracts/issues"
-  },
-  "homepage": "https://github.com/Returnacy/event-contracts#readme",
-  "private": false
+  ]
 }

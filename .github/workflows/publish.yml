@@ -1,42 +1,62 @@
-name: Publish package to GitHub Packages
+name: Publish (GitHub Packages)
 
 on:
   push:
     tags:
       - 'v*.*.*'
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
-  publish:
+  build-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Node (auth to GitHub Packages)
+      - name: Use PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node (GitHub Packages)
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@returnacy'
-          always-auth: true
+          registry-url: https://npm.pkg.github.com
+          cache: 'pnpm'
 
-      - name: Enable corepack
-        run: corepack enable
-
-      - name: Install dependencies
+      - name: Configure .npmrc for scope
+        run: |
+          echo "@returnacy:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install deps
         run: pnpm install --frozen-lockfile
 
-      - name: Build & generate schemas
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Type check
+        run: pnpm check
+
+      - name: Build + Generate Schemas
         run: pnpm prepublishOnly
+
+      - name: Verify schemas committed
+        run: |
+          git add schemas
+          if ! git diff --cached --quiet; then
+            echo 'Schemas changed. Commit and tag again.'
+            git diff --cached
+            exit 1
+          fi
 
       - name: Publish to GitHub Packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm publish --access public --no-git-checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish
+
+      - name: Summary
+        run: |
+          echo "Published $(node -p "require('./package.json').name")@$(node -p "require('./package.json').version") to GitHub Packages" >> $GITHUB_STEP_SUMMARY
