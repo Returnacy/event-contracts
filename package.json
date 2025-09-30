@@ -1,6 +1,6 @@
 {
   "name": "@returnacy/event-contracts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Shared event envelope, schemas, and validators for Returnacy services",
   "license": "MIT",
   "type": "module",
