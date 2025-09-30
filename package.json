@@ -1,6 +1,6 @@
 {
   "name": "@returnacy/event-contracts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Shared event envelope, schemas, and validators for Returnacy services",
   "license": "MIT",
   "type": "module",
@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
-  "ts-node": "^10.9.2",
-  "tsx": "^4.16.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.16.2",
     "tsup": "^8.0.1",
     "typescript": "^5.4.5",
     "zod-to-json-schema": "^3.22.5"
@@ -43,7 +43,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Returnacy/event-contracts.git"
-  },  
+  },
   "keywords": [
     "events",
     "contracts",
